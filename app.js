@@ -1,29 +1,55 @@
-$('form').submit(function(event){
-	event.preventDefault();
-	var newarr = [];
-	var wc = 0, uwc = 0, same = 0, x = 0;
-
-	$("#user-text").val().split(" ").forEach(function(val){
-		newarr.forEach(function(val2){
-			if (val == val2)
-				same = 1;
-		})
-		if (same == 0){
-			wc++;
-			uwc++;
-			newarr.push(val);
+function findUniqueWords(words){
+	var uniqueWords = 0;
+	var newArray = [];
+	var same = false;
+	words.forEach(function(word){
+		newArray.forEach(function(word2){
+			if (word == word2)
+				same = true;
+		});
+		if (same == false){
+			uniqueWords++;
+			newArray.push(word);
 		}
-		else{
-			same = 0;
-			wc++;
-		}
-		x += val.length;
-	})
-	var awl = x/wc;
+		same = false;
+	});
+	return uniqueWords;
+}
 
-	$("dd").empty();
-	$("dl.hidden").removeClass("hidden");
-	$("dd:nth-of-type(1)").append(wc);
-	$("dd:nth-of-type(2)").append(uwc);
-	$("dd:nth-of-type(3)").append(awl, " characters");
-})
+function findAverageWordLength(words){
+	var x = 0;
+	words.forEach(function(word){
+		x += word.length;
+	});
+	return x/words.length;
+}
+
+
+function analyze(){
+	$('form').submit(function(event){
+		//Stops page from reloading
+		event.preventDefault();
+
+		//Creates an array called words and makes every word inside lowercase
+		var words = $("#user-text").val().toLowerCase().split(" ");
+
+		//Removes old values
+		$("dd").empty();
+
+		//Removes the hidden class from the dl element
+		$("dl.hidden").removeClass("hidden");
+
+		//Returns total word count
+		$(".js-word").append(words.length);
+
+		//Returns a value of how many words are unique from each other
+		$(".js-unique-word").append(findUniqueWords(words));
+		
+		//Returns a value of the average length of each word
+		$(".js-word-length").append(findAverageWordLength(words), " characters");
+	});
+}
+
+$(function() {
+	analyze();
+});
