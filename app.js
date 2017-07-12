@@ -25,5 +25,5 @@ $('form').submit(function(event){
 	$("dl.hidden").removeClass("hidden");
 	$("dd:nth-of-type(1)").append(wc);
 	$("dd:nth-of-type(2)").append(uwc);
-	$("dd:nth-of-type(3)").append(awl);
+	$("dd:nth-of-type(3)").append(awl, " characters");
 })
